@@ -3,7 +3,7 @@ import Fastify from 'fastify'
 const app = Fastify({ logger: true })
 
 app.get('/health', async () => {
-  return { status: 'ok', message: 'Quiz Game API running 🎮' }
+  return { status: 'ok', message: 'Quiz Game API running' }
 })
 
 const start = async () => {
