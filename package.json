@@ -1,0 +1,31 @@
+{
+  "name": "quiz-game-backend",
+  "version": "1.0.0",
+  "description": "Backend de una app de preguntas y respuestas",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guillermorl9/quiz-game-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Guillermorl9/quiz-game-backend/issues"
+  },
+  "homepage": "https://github.com/Guillermorl9/quiz-game-backend#readme",
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "fastify": "^5.8.4"
+  }
+}
