@@ -1,10 +1,14 @@
+import 'dotenv/config'
 import Fastify from 'fastify'
+import questionRoutes from './routes/questions'
 
 const app = Fastify({ logger: true })
 
 app.get('/health', async () => {
-  return { status: 'ok', message: 'Quiz Game API running' }
+  return { status: 'ok', message: 'Quiz Game API running 🎮' }
 })
+
+app.register(questionRoutes, { prefix: '/questions' })
 
 const start = async () => {
   try {
