@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import Fastify from 'fastify'
 import questionRoutes from './routes/questions'
+import categoryRoutes from './routes/categories'
 
 const app = Fastify({ logger: true })
 
@@ -9,6 +10,7 @@ app.get('/health', async () => {
 })
 
 app.register(questionRoutes, { prefix: '/questions' })
+app.register(categoryRoutes, { prefix: '/categories' })
 
 const start = async () => {
   try {

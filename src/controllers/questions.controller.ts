@@ -1,30 +1,22 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import prisma from '../lib/prisma'
+import * as questionsService from '../services/questions.service'
 
 export const getRandomQuestion = async (
-  request: FastifyRequest,
+  request: FastifyRequest<{
+    Querystring: { categoryId?: string; difficulty?: string }
+  }>,
   reply: FastifyReply
 ) => {
-  const count = await prisma.question.count()
+  const { categoryId, difficulty } = request.query
 
-  if (count === 0) {
+  const question = await questionsService.getRandomQuestion(
+    categoryId ? parseInt(categoryId) : undefined,
+    difficulty
+  )
+
+  if (!question) {
     return reply.status(404).send({ error: 'No hay preguntas disponibles' })
   }
-
-  const skip = Math.floor(Math.random() * count)
-
-  const question = await prisma.question.findFirst({
-    skip,
-    include: {
-      category: true,
-      options: {
-        select: {
-          id: true,
-          text: true
-        }
-      }
-    }
-  })
 
   return reply.send(question)
 }
@@ -39,23 +31,11 @@ export const answerQuestion = async (
   const questionId = parseInt(request.params.id)
   const { optionId } = request.body
 
-  const option = await prisma.option.findFirst({
-    where: {
-      id: optionId,
-      questionId
-    }
-  })
+  const result = await questionsService.checkAnswer(questionId, optionId)
 
-  if (!option) {
+  if (!result) {
     return reply.status(404).send({ error: 'Opción no encontrada' })
   }
 
-  return reply.send({
-    correct: option.isCorrect,
-    correctOptionId: option.isCorrect
-      ? optionId
-      : (await prisma.option.findFirst({
-          where: { questionId, isCorrect: true }
-        }))!.id
-  })
+  return reply.send(result)
 }
