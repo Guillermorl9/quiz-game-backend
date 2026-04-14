@@ -1,0 +1,3 @@
+- Modo de juego Battle Royale.
+- Modo de juego en el que los usuarios crean sus propias preguntas y pueden compartirlo con otros usuarios, así como "retándolos"
+- Modo "historia", una especie de llegar a la cima en las que pasas por diferentes temáticas y las preguntas son en relación a esas temáticas. Por ejemplo, temática oriente medio, temática países, comida, animales... hasta llegar a la cima.
