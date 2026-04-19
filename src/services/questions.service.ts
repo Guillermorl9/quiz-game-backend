@@ -1,4 +1,32 @@
+import { Question } from "@prisma/client";
 import prisma from "../lib/prisma";
+
+export interface CreateQuestionInput {
+  text: string;
+  difficulty: string;
+  categoryId: number;
+  options: {
+    text: string;
+    isCorrect: boolean;
+  }[];
+}
+
+export const createQuestion = async (data: CreateQuestionInput) => {
+  return prisma.question.create({
+    data: {
+      text: data.text,
+      difficulty: data.difficulty,
+      categoryId: data.categoryId,
+      options: {
+        create: data.options,
+      },
+    },
+    include: {
+      options: true,
+      category: true,
+    },
+  });
+};
 
 export const getRandomQuestion = async (
   categoryId?: number,
