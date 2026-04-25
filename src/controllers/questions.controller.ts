@@ -35,26 +35,6 @@ export const createQuestion = async (
   return reply.send(result);
 };
 
-export const updateQuestion = async (
-  request: FastifyRequest<{
-    Body: UpdateQuestionInput;
-    Params: { id: string };
-  }>,
-  reply: FastifyReply,
-) => {
-  const id = parseInt(request.params.id);
-  const data = request.body;
-
-  const result = await questionsService.updateQuestion({ id, ...data });
-  if (!result) {
-    return reply
-      .status(500)
-      .send({ error: "No se ha podido crear la pregunta" });
-  }
-
-  return reply.send(result);
-};
-
 export const getQuestionById = async (
   request: FastifyRequest<{
     Params: { id: string };
@@ -89,6 +69,44 @@ export const getRandomQuestion = async (
   }
 
   return reply.send(question);
+};
+
+export const updateQuestion = async (
+  request: FastifyRequest<{
+    Body: UpdateQuestionInput;
+    Params: { id: string };
+  }>,
+  reply: FastifyReply,
+) => {
+  const id = parseInt(request.params.id);
+  const data = request.body;
+
+  const result = await questionsService.updateQuestion({ id, ...data });
+  if (!result) {
+    return reply
+      .status(500)
+      .send({ error: "No se ha podido crear la pregunta" });
+  }
+
+  return reply.send(result);
+};
+
+export const deleteQuestion = async (
+  request: FastifyRequest<{
+    Params: { questionId: string };
+  }>,
+  reply: FastifyReply,
+) => {
+  const id = parseInt(request.params.questionId);
+
+  const result = questionsService.deleteQuestion(id);
+  if (!result) {
+    return reply
+      .status(500)
+      .send({ error: "No se ha podido eliminar la pregunta" });
+  }
+
+  return reply.send(result);
 };
 
 export const answerQuestion = async (

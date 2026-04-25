@@ -5,12 +5,14 @@ import {
   createQuestion,
   updateQuestion,
   getQuestionById,
+  deleteQuestion,
 } from "../controllers/questions.controller";
 
 export default async function questionRoutes(app: FastifyInstance) {
+  app.post("/create", createQuestion);
   app.get("/:id", getQuestionById);
   app.get("/random", getRandomQuestion);
-  app.post("/create", createQuestion);
-  app.post("/:id/answer", answerQuestion);
   app.put("/:id", updateQuestion);
+  app.delete("/:id", deleteQuestion);
+  app.post("/:id/answer", answerQuestion);
 }

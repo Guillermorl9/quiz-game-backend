@@ -90,6 +90,16 @@ export const updateQuestion = async (
   });
 };
 
+export const deleteQuestion = async (questionId: number) => {
+  return prisma.question.delete({
+    where: { id: questionId },
+    include: {
+      options: true,
+      category: true,
+    },
+  });
+};
+
 export const checkAnswer = async (questionId: number, optionId: number) => {
   const option = await prisma.option.findFirst({
     where: { id: optionId, questionId },
