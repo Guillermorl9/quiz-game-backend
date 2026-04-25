@@ -11,6 +11,12 @@ export interface CreateQuestionInput {
   }[];
 }
 
+export interface UpdateQuestionInput {
+  text: string;
+  difficulty: string;
+  categoryId: number;
+}
+
 export const createQuestion = async (data: CreateQuestionInput) => {
   return prisma.question.create({
     data: {
@@ -51,6 +57,23 @@ export const getRandomQuestion = async (
       options: {
         select: { id: true, text: true },
       },
+    },
+  });
+};
+
+export const updateQuestion = async (
+  data: UpdateQuestionInput & { id: number },
+) => {
+  return prisma.question.update({
+    where: { id: data.id },
+    data: {
+      text: data.text,
+      difficulty: data.difficulty,
+      categoryId: data.categoryId,
+    },
+    include: {
+      options: true,
+      category: true,
     },
   });
 };

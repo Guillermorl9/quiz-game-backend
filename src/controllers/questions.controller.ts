@@ -11,6 +11,12 @@ interface CreateQuestionInput {
   }[];
 }
 
+export interface UpdateQuestionInput {
+  text: string;
+  difficulty: string;
+  categoryId: number;
+}
+
 export const createQuestion = async (
   request: FastifyRequest<{
     Body: CreateQuestionInput;
@@ -20,6 +26,26 @@ export const createQuestion = async (
   const data = request.body;
 
   const result = await questionsService.createQuestion(data);
+  if (!result) {
+    return reply
+      .status(500)
+      .send({ error: "No se ha podido crear la pregunta" });
+  }
+
+  return reply.send(result);
+};
+
+export const updateQuestion = async (
+  request: FastifyRequest<{
+    Body: UpdateQuestionInput;
+    Params: { id: string };
+  }>,
+  reply: FastifyReply,
+) => {
+  const id = parseInt(request.params.id);
+  const data = request.body;
+
+  const result = await questionsService.updateQuestion({ id, ...data });
   if (!result) {
     return reply
       .status(500)
