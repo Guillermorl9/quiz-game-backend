@@ -55,6 +55,22 @@ export const updateQuestion = async (
   return reply.send(result);
 };
 
+export const getQuestionById = async (
+  request: FastifyRequest<{
+    Params: { id: string };
+  }>,
+  reply: FastifyReply,
+) => {
+  const id = parseInt(request.params.id);
+
+  const result = await questionsService.getQuestionById(id);
+  if (!result) {
+    return reply.status(500).send({ error: "NO hay preguntas disponibles" });
+  }
+
+  return reply.send(result);
+};
+
 export const getRandomQuestion = async (
   request: FastifyRequest<{
     Querystring: { categoryId?: string; difficulty?: string };

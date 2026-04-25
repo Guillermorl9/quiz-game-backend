@@ -34,6 +34,18 @@ export const createQuestion = async (data: CreateQuestionInput) => {
   });
 };
 
+export const getQuestionById = async (questionId: number) => {
+  return prisma.question.findFirst({
+    where: { id: questionId },
+    include: {
+      category: true,
+      options: {
+        select: { id: true, text: true },
+      },
+    },
+  });
+};
+
 export const getRandomQuestion = async (
   categoryId?: number,
   difficulty?: string,
